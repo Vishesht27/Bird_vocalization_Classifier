@@ -3,7 +3,8 @@ from backend.serving import serving
 import numpy as np
 import tensorflow as tf
 import tensorflow_io as tfio
-
+import librosa
+from IPython.display import Audio
 
 # Heading of the app
 st.title("Bird Vocal Classifier")
@@ -34,19 +35,30 @@ def ensure_sample_rate(waveform, original_sample_rate,
 
 #Taking Audio Input file from user
 uploaded_file = st.file_uploader("Choose an audio file", type="wav")
-# convert wav to array
-if uploaded_file is not None:
-    audio_bytes = uploaded_file.read()
-    st.write(type(audio_bytes))
-    st.write(len(audio_bytes))
-    audio_array = np.frombuffer(audio_bytes, dtype=np.uint8)
-    st.write(type(audio_array))
-    st.write(len(audio_array))
-    st.write(audio_array)
-    st.write(audio_array.shape)
-    print("following is the shape of audio array")
-    fixed_tm = frame_audio(audio_array, 5.0, 5.0,32000)
-    fixed_tm.shape
+
+audio, sample_rate = librosa.load("testing_data/test_bird_audio.ogg")
+sample_rate, wav_data = ensure_sample_rate(audio, sample_rate)
+Audio(wav_data, rate=sample_rate)
+fixed_tm = frame_audio(wav_data)
+print(fixed_tm.shape)
+# logits, embeddings = model.infer_tf(fixed_tm[:1])
+# probabilities = tf.nn.softmax(logits)
+# argmax = np.argmax(probabilities)
+# print(f"The audio is from the class {classes[argmax]} (element:{argmax} in the label.csv file), with probability of {probabilities[0][argmax]}")
+
+# # convert wav to array
+# if uploaded_file is not None:
+#     audio_bytes = uploaded_file.read()
+#     st.write(type(audio_bytes))
+#     st.write(len(audio_bytes))
+#     audio_array = np.frombuffer(audio_bytes, dtype=np.uint8)
+#     st.write(type(audio_array))
+#     st.write(len(audio_array))
+#     st.write(audio_array)
+#     st.write(audio_array.shape)
+#     print("following is the shape of audio array")
+#     fixed_tm = frame_audio(audio_array, 5.0, 5.0,32000)
+#     fixed_tm.shape
 
 
 
