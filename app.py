@@ -3,7 +3,8 @@ from backend.serving import serving
 import numpy as np
 import tensorflow as tf
 import tensorflow_io as tfio
-import librosa
+from pydub import AudioSegment
+from pydub.playback import play
 from IPython.display import Audio
 
 # Heading of the app
@@ -34,13 +35,13 @@ def ensure_sample_rate(waveform, original_sample_rate,
 
 
 #Taking Audio Input file from user
-uploaded_file = st.file_uploader("Choose an audio file", type="wav")
-
-audio, sample_rate = librosa.load("testing_data/test_bird_audio.ogg")
-sample_rate, wav_data = ensure_sample_rate(audio, sample_rate)
-Audio(wav_data, rate=sample_rate)
-fixed_tm = frame_audio(wav_data)
-print(fixed_tm.shape)
+uploaded_file = st.file_uploader("Choose an audio file", type="ogg")
+audio= AudioSegment.from_ogg("test_bird_audio.ogg")
+play(audio)
+# sample_rate, wav_data = ensure_sample_rate(audio, sample_rate)
+# Audio(wav_data, rate=sample_rate)
+# fixed_tm = frame_audio(wav_data)
+# print(fixed_tm.shape)
 # logits, embeddings = model.infer_tf(fixed_tm[:1])
 # probabilities = tf.nn.softmax(logits)
 # argmax = np.argmax(probabilities)
