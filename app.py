@@ -38,14 +38,14 @@ def ensure_sample_rate(waveform, original_sample_rate,
 uploaded_file = st.file_uploader("Choose an audio file", type="ogg")
 audio= AudioSegment.from_ogg("test_bird_audio.ogg")
 play(audio)
-# sample_rate, wav_data = ensure_sample_rate(audio, sample_rate)
-# Audio(wav_data, rate=sample_rate)
-# fixed_tm = frame_audio(wav_data)
-# print(fixed_tm.shape)
-# logits, embeddings = model.infer_tf(fixed_tm[:1])
-# probabilities = tf.nn.softmax(logits)
-# argmax = np.argmax(probabilities)
-# print(f"The audio is from the class {classes[argmax]} (element:{argmax} in the label.csv file), with probability of {probabilities[0][argmax]}")
+sample_rate, wav_data = ensure_sample_rate(audio, sample_rate)
+Audio(wav_data, rate=sample_rate)
+fixed_tm = frame_audio(wav_data)
+print(fixed_tm.shape)
+logits, embeddings = model.infer_tf(fixed_tm[:1])
+probabilities = tf.nn.softmax(logits)
+argmax = np.argmax(probabilities)
+print(f"The audio is from the class {classes[argmax]} (element:{argmax} in the label.csv file), with probability of {probabilities[0][argmax]}")
 
 # # convert wav to array
 # if uploaded_file is not None:
